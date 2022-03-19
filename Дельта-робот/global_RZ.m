@@ -1,7 +1,7 @@
 clc; close all; clear;
 %Объявляем глобальные переменные характерных размеров робота и констант
 global R_l R_r VM OQ cos120 sin120 cos240 sin240 %Размеры и константы
-global minTheta QG phiMax varthetaMax %Ограничения
+global stepTheta minTheta QG phiMax varthetaMax %Ограничения
 
 %Вычисляем константы
 cos120 = cosd(120);
