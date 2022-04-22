@@ -2,10 +2,8 @@
 %дельта-робота
 function [] = zoneBuilder()
     global R_l R_r VM OQ cos120 sin120 cos240 sin240 %Размеры и константы
-    global minTheta QG phiMax varthetaMax %Ограничения
+    global minTheta maxTheta QG phiMax varthetaMax %Ограничения
     global stepTheta %Шаг изменения углов
-
-    maxTheta = 270; %Максимальный угол для перебора
 
     %Подготовительные вычисления
     gammaMin = asind(QG/R_l);
@@ -24,37 +22,37 @@ function [] = zoneBuilder()
                 %Вычисляем координаты точек в системах координат XOY
                 %X120Y120Z120 и X240Y240Z240
                 X_Q1 = 0;
-                Y_Q1 = -OQ;
+                Y_Q1 = OQ;
                 Z_Q1 = 0;
                 X_L1 = 0;
-                Y_L1 = -(OQ + R_l*sind(Theta1-90));
-                Z_L1 =  R_l*cosd(Theta1-90);
+                Y_L1 = OQ+R_l*cosd(Theta1);
+                Z_L1 = R_l*sind(Theta1);
                 X_M1 = X_V;
-                Y_M1 = Y_V - VM;
+                Y_M1 = Y_V + VM;
                 Z_M1 = Z_V;
                     X_V_120 = X_V*cos120 - Y_V*sin120;
                     Y_V_120 = X_V*sin120 + Y_V*cos120;
                     Z_V_120 = Z_V;
                     X_Q2_120 = 0;
-                    Y_Q2_120 = -OQ;
+                    Y_Q2_120 = OQ;
                     Z_Q2_120 = 0;
                     X_L2_120 = 0;
-                    Y_L2_120 = -(OQ + R_l*sind(Theta2-90));
-                    Z_L2_120 =  R_l*cosd(Theta2-90);
+                    Y_L2_120 = OQ+R_l*cosd(Theta2);
+                    Z_L2_120 = R_l*sind(Theta2);
                     X_M2_120 = X_V_120;
-                    Y_M2_120 = Y_V_120 - VM;
+                    Y_M2_120 = Y_V_120 + VM;
                     Z_M2_120 = Z_V_120;
                         X_V_240 = X_V*cos240 - Y_V*sin240;
                         Y_V_240 = X_V*sin240 + Y_V*cos240;
                         Z_V_240 = Z_V;
                         X_Q3_240 = 0;
-                        Y_Q3_240 = -OQ;
+                        Y_Q3_240 = OQ;
                         Z_Q3_240 = 0;
                         X_L3_240 = 0;
-                        Y_L3_240 = -(OQ + R_l*sind(Theta3-90));
-                        Z_L3_240 =  R_l*cosd(Theta3-90);
+                        Y_L3_240 = OQ+R_l*cosd(Theta3);
+                        Z_L3_240 = R_l*sind(Theta3);
                         X_M3_240 = X_V_240;
-                        Y_M3_240 = Y_V_240 - VM;
+                        Y_M3_240 = Y_V_240 + VM;
                         Z_M3_240 = Z_V_240;
                 %Собираем это в вектора
                 Q1 = [X_Q1, Y_Q1, Z_Q1];
@@ -128,29 +126,29 @@ function [] = zoneBuilder()
     
     % Рычаги и штанги    
     Xr1 = [0 0];
-    Yr1 = [-OQ -OQ+R_l*cosd(minTheta)];
+    Yr1 = [OQ OQ+R_l*cosd(minTheta)];
     Zr1 = [0 R_l*sind(minTheta)];
     Xs1 = [Xr1(2) 0];
-    Ys1 = [Yr1(2) -VM];
+    Ys1 = [Yr1(2) VM];
     Zs1 = [Zr1(2) Z_for_platform];
     
-    Xr2 = [OQ*cosd(30) (OQ+R_l)*cosd(30)];
-    Yr2 = [OQ*sind(30) (OQ+R_l)*sind(30)];
+    Xr2 = [OQ*sin120 (OQ+R_l*cosd(minTheta))*sin120];
+    Yr2 = [OQ*cos120 (OQ+R_l*cosd(minTheta))*cos120];
     Zr2 = [0 R_l*sind(minTheta)];
-    Xs2 = [Xr2(2) VM*cosd(30)];
-    Ys2 = [Yr2(2) VM*sind(30)];
+    Xs2 = [Xr2(2) VM*sin120];
+    Ys2 = [Yr2(2) VM*cos120];
     Zs2 = [Zr2(2) Z_for_platform];
     
-    Xr3 = [-OQ*cosd(30) -(OQ+R_l)*cosd(30)];
-    Yr3 = [OQ*sind(30) (OQ+R_l)*sind(30)];
+    Xr3 = [OQ*sin240 (OQ+R_l*cosd(minTheta))*sin240];
+    Yr3 = [OQ*cos240 (OQ+R_l*cosd(minTheta))*cos240];
     Zr3 = [0 R_l*sind(minTheta)];
-    Xs3 = [Xr3(2) -VM*cosd(30)];
-    Ys3 = [Yr3(2) VM*sind(30)];
+    Xs3 = [Xr3(2) VM*sin240];
+    Ys3 = [Yr3(2) VM*cos240];
     Zs3 = [Zr3(2) Z_for_platform];
 
     %Отображаем реальную РЗ
     trisurf(K, V_RZ(:,1), V_RZ(:,2), V_RZ(:,3), 'Facecolor','red', 'FaceAlpha', 0.3);
-    axis([-200 200 -200 200 -350 100])
+    axis([-200 200 -200 200 -150 350])
     hold on;
     %Отображаем крышку и боковую поверхность цилиндра
     patch(Xo1, Yo1, Zo1, 'c', 'FaceAlpha', 0.5);
