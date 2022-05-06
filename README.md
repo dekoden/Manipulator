@@ -22,5 +22,4 @@
 # Дельта-робот
 Запускать файл global_RZ.m
 # Рабочая зона с ошибками дельта-робота
-![]
-(https://github.com/dekoden/Manipulator/blob/main/%D0%94%D0%B5%D0%BB%D1%8C%D1%82%D0%B0-%D1%80%D0%BE%D0%B1%D0%BE%D1%82/image.png "")
+![](https://github.com/dekoden/Manipulator/blob/main/%D0%94%D0%B5%D0%BB%D1%8C%D1%82%D0%B0-%D1%80%D0%BE%D0%B1%D0%BE%D1%82/image.png)
